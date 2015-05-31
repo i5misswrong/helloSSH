@@ -1,5 +1,7 @@
 package com.wrong.action;
 
+import java.util.List;
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.wrong.dao.DaoSupport;
 import com.wrong.dao.userDao;
@@ -40,8 +42,10 @@ public class HelloAction extends ActionSupport{
 	
 	
 	public String execute() throws Exception{
+		System.out.println(userName+"username");
 		userDaoImpl us=new userDaoImpl();
-		boolean flag=us.checkLogin(userName, userPassword);
-		return SUCCESS;
+		List user=us.checkLogin(userName, userPassword);
+		System.out.println(user+"list");
+		return "success";
 	}
 }

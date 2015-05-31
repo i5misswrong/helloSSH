@@ -1,6 +1,8 @@
 package com.wrong.dao;
 
+import java.util.List;
+
 import com.wrong.model.*;
 public interface userDao extends BaseDao<User>{
-	public boolean checkLogin(String userName,String userPassword);
+	public List checkLogin(String userName,String userPassword);
 }

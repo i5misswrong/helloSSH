@@ -18,57 +18,36 @@
     http://www.springframework.org/schema/util  
     http://www.springframework.org/schema/util/spring-util.xsd">  
     
-  	<!-- 配置sessionFactory -->
-	 <!-- <bean id="sessionFacory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
-	 	<property name="configLocation">
-	 		<value>classpath:hibernate.cfg.xml</value>
-	 	</property>
-	 </bean> -->
- 
-	<!-- 配置事务 -->
-    <!-- <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-    	<property name="sessionFactory">
-    		<ref bean="sessionFacory"/>
-    	</property>
-    </bean> -->
-    
-   <!--  <tx:annotation-driven transaction-manager="transactionManager"/> -->
-   
-   
-   
-   <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  destroy-method="close">  
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> 
-		<property name="url"  value="jdbc:mysql://localhost:3306/test" />  
-		<property name="username" value=""></property>  
-		
-	</bean>  
-	<!-- //构建sessionfactory的bean，为把sessionfactory注入到dao层构建bean   -->
-	<bean id="sessionFactory"  class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"  lazy-init="false">  
-<!-- 		//注入datasource，给sessionfactoryBean内setdatasource提供数据源   -->
-		<property name="dataSource">  
-			<ref bean="dataSource" />  
-		</property>  
-<!-- 			//加载实体类的配置文件   -->
-		<property name="mappingResources">  
-			<list>  
-				<value>com.wrong.model.User.hbm.xml</value>  
-				
-			</list>  
-		</property>  
-		<!-- //设置hibernate的属性，相当于hibernate.cfg.xml中的设置属性   -->
-		<!-- <property name="hibernateProperties">  
-			<props>  
-				<prop key="hibernate.dialect">  
-					org.hibernate.dialect.SQLServerDialect  
-				</prop>  
-				<prop key="hbm2ddl.auto">update</prop>  
-				<prop key="hibernate.show_sql">true</prop>  
-			</props>  
-		</property>   -->
-	</bean>  
-<!-- 			//把sessionfactory注入dao层   -->
-	<bean id="test" class="com.wrong.dao.hello" lazy-init="false">  
-		<property name="sessionFactory" ref="sessionFactory"></property>  
-	</bean>  
+  	 
 	
+	
+ <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" /> 
+		<property name="jdbcUrl"  value="jdbc:mysql://localhost:3306/test" />  
+		<property name="user" value="root"></property>  
+	</bean>
+
+		<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		
+		 <property name="packagesToScan">
+			<list>
+				<value>com.wrong.model</value>			
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+		
+	</bean>
+	
+	<bean id="userDao" class="com.wrong.dao.userDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 </beans>
