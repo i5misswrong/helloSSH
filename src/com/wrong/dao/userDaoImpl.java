@@ -57,6 +57,7 @@ public class userDaoImpl extends DaoSupport<User> implements userDao {
 			String hql="from User";
 			Query query=session.createQuery(hql);
 			list=query.list();
+			
 			System.out.println(list+"list");
 		}
 		catch(HibernateException e){

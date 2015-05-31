@@ -44,7 +44,8 @@ public class HelloAction extends ActionSupport{
 	public String execute() throws Exception{
 		System.out.println(userName+"username");
 		userDaoImpl us=new userDaoImpl();
-		List user=us.checkLogin(userName, userPassword);
+		List <User> user=(List<User>)us.checkLogin(userName, userPassword);
+		
 		System.out.println(user+"list");
 		return "success";
 	}
